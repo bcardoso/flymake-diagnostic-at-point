@@ -104,7 +104,7 @@ Only the `background' is used in this face."
 
 (defun flymake-diagnostic-at-point-display-minibuffer (text)
   "Display the flymake diagnostic TEXT in the minibuffer."
-  (message (concat flymake-diagnostic-at-point-error-prefix text)))
+  (message "%s" (concat flymake-diagnostic-at-point-error-prefix text)))
 
 (defun flymake-diagnostic-at-point-maybe-display ()
   "Display the flymake diagnostic text for the thing at point.
