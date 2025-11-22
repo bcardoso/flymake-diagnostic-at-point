@@ -50,7 +50,7 @@
                  string))
 
 (defcustom flymake-diagnostic-at-point-display-diagnostic-function
-  'flymake-diagnostic-at-point-display-popup
+  'flymake-diagnostic-at-point-display-posframe
   "The function to be used to display the diagnostic message."
   :group 'flymake-diagnostic-at-point
   :type '(choice (const :tag "Display error messages in a popup"
