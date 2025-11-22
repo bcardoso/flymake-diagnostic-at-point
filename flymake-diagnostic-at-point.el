@@ -79,7 +79,7 @@ Only the `background' is used in this face."
   (popup-tip (concat flymake-diagnostic-at-point-error-prefix text)))
 
 (defvar flymake-diagnostic-at-point-buffer-name
-  "*Flymake-diagnostic-at-point*"
+  " *Flymake-diagnostic-at-point*"
   "The posframe buffer name use by flymake-diagnostic-at-point.")
 
 (defvar flymake-diagnostic-at-point-hide-posframe-hooks
