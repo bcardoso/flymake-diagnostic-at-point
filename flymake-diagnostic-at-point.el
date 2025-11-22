@@ -6,7 +6,7 @@
 ;; URL: https://github.com/meqif/flymake-diagnostic-at-point
 ;; Keywords: convenience, languages, tools
 ;; Version: 1.2.0
-;; Package-Requires: ((emacs "26.1") (popup "0.5.3") (posframe "0.3.0"))
+;; Package-Requires: ((emacs "27.1") (popup "0.5.3") (posframe "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -145,28 +145,18 @@ in `flymake-diagnostic-at-point-display-diagnostic-function.'"
 
 (defun flymake-diagnostic-at-point-setup ()
   "Setup the hooks for `flymake-diagnostic-at-point-mode'."
-  (add-hook 'post-command-hook #'flymake-diagnostic-at-point-set-timer nil 'local)
-  (if (version< emacs-version "27.0")
-      (progn
-        (add-hook 'focus-out-hook
-                  #'flymake-diagnostic-at-point-cancel-timer nil 'local)
-        (add-hook 'focus-in-hook
-                  #'flymake-diagnostic-at-point-set-timer nil 'local))
-    (add-function :after
-                  (local 'after-focus-change-function)
-                  #'flymake-diagnostic-at-point-handle-focus-change)))
+  (add-hook 'post-command-hook
+            #'flymake-diagnostic-at-point-set-timer nil 'local)
+  (add-function :after
+                (local 'after-focus-change-function)
+                #'flymake-diagnostic-at-point-handle-focus-change))
 
 (defun flymake-diagnostic-at-point-teardown ()
   "Remove the hooks for `flymake-diagnostic-at-point-mode'."
-  (remove-hook 'post-command-hook #'flymake-diagnostic-at-point-set-timer 'local)
-  (if (version< emacs-version "27.0")
-      (progn
-        (remove-hook 'focus-out-hook
-                     #'flymake-diagnostic-at-point-cancel-timer 'local)
-        (remove-hook 'focus-in-hook
-                     #'flymake-diagnostic-at-point-set-timer 'local))
-    (remove-function 'after-focus-change-function
-                     #'flymake-diagnostic-at-point-handle-focus-change)))
+  (remove-hook 'post-command-hook
+               #'flymake-diagnostic-at-point-set-timer 'local)
+  (remove-function after-focus-change-function
+                   #'flymake-diagnostic-at-point-handle-focus-change))
 
 (define-minor-mode flymake-diagnostic-at-point-mode
   "Minor mode for displaying flymake diagnostics at point."
