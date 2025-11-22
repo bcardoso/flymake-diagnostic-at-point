@@ -61,10 +61,10 @@
                         flymake-diagnostic-at-point-display-minibuffer)
                  (function :tag "Error display function")))
 
-(defface flymake-diagnostic-at-point-posframe-background-face
+(defface flymake-diagnostic-at-point-posframe-face
   '((t))
-  "The background color of the flymake-diagnostic-at-point posframe frame.
-Only the `background' is used in this face."
+  "The color of the flymake-diagnostic-at-point posframe frame.
+Only the `background' and `foreground' are used from this face."
   :group 'flymake-diagnostic-at-point)
 
 (defvar-local flymake-diagnostic-at-point-timer nil
@@ -91,7 +91,10 @@ Only the `background' is used in this face."
   (posframe-show
    flymake-diagnostic-at-point-buffer-name
    :string (concat flymake-diagnostic-at-point-error-prefix text)
-   :background-color (face-background 'flymake-diagnostic-at-point-posframe-background-face nil t)
+   :foreground-color (face-foreground
+                      'flymake-diagnostic-at-point-posframe-face nil t)
+   :background-color (face-background
+                      'flymake-diagnostic-at-point-posframe-face nil t)
    :position (point))
   (dolist (hook flymake-diagnostic-at-point-hide-posframe-hooks)
     (add-hook hook #'flymake-diagnostic-at-point-hide-posframe nil t)))
