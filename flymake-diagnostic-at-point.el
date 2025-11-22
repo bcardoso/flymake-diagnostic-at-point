@@ -46,7 +46,7 @@
 (defcustom flymake-diagnostic-at-point-error-prefix "➤ "
   "String to be displayed before every error line."
   :group 'flymake-diagnostic-at-point
-  :type '(choice (const :tag "No prefix" nil)
+  :type '(choice (const :tag "No prefix" "")
                  string))
 
 (defcustom flymake-diagnostic-at-point-display-diagnostic-function
