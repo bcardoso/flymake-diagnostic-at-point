@@ -72,7 +72,7 @@ Only the `background' is used in this face."
 
 (defun flymake-diagnostic-at-point-get-diagnostic-text ()
   "Get the flymake diagnostic text for the thing at point."
-  (flymake--diag-text (get-char-property (point) 'flymake-diagnostic)))
+  (flymake-diagnostic-text (get-char-property (point) 'flymake-diagnostic)))
 
 (defun flymake-diagnostic-at-point-display-popup (text)
   "Display the flymake diagnostic TEXT inside a popup."
