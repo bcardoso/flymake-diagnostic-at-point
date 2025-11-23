@@ -83,7 +83,10 @@ Only the `background' and `foreground' are used from this face."
   "The posframe buffer name use by flymake-diagnostic-at-point.")
 
 (defvar flymake-diagnostic-at-point-hide-posframe-hooks
-  '(pre-command-hook post-command-hook focus-out-hook)
+  '(pre-command-hook
+    post-command-hook
+    window-selection-change-functions
+    window-buffer-change-functions)
   "The hooks which should trigger automatic removal of the posframe.")
 
 (defun flymake-diagnostic-at-point-display-posframe (text)
@@ -115,7 +118,8 @@ Only the `background' and `foreground' are used from this face."
 The diagnostic text will be rendered using the function defined
 in `flymake-diagnostic-at-point-display-diagnostic-function.'"
   (when (and flymake-mode
-             (get-char-property (point) 'flymake-diagnostic))
+             (get-char-property (point) 'flymake-diagnostic)
+             (not (eq last-command 'self-insert-command)))
     (let ((text (flymake-diagnostic-at-point-get-diagnostic-text)))
       (funcall flymake-diagnostic-at-point-display-diagnostic-function text))))
 
@@ -149,17 +153,12 @@ in `flymake-diagnostic-at-point-display-diagnostic-function.'"
 (defun flymake-diagnostic-at-point-setup ()
   "Setup the hooks for `flymake-diagnostic-at-point-mode'."
   (add-hook 'post-command-hook
-            #'flymake-diagnostic-at-point-set-timer nil 'local)
-  (add-function :after
-                (local 'after-focus-change-function)
-                #'flymake-diagnostic-at-point-handle-focus-change))
+            #'flymake-diagnostic-at-point-set-timer nil 'local))
 
 (defun flymake-diagnostic-at-point-teardown ()
   "Remove the hooks for `flymake-diagnostic-at-point-mode'."
   (remove-hook 'post-command-hook
-               #'flymake-diagnostic-at-point-set-timer 'local)
-  (remove-function after-focus-change-function
-                   #'flymake-diagnostic-at-point-handle-focus-change))
+               #'flymake-diagnostic-at-point-set-timer 'local))
 
 (define-minor-mode flymake-diagnostic-at-point-mode
   "Minor mode for displaying flymake diagnostics at point."
