@@ -46,7 +46,7 @@
 (defcustom flymake-diagnostic-at-point-error-prefix "➤ "
   "String to be displayed before every error line."
   :group 'flymake-diagnostic-at-point
-  :type '(choice (const :tag "No prefix" "")
+  :type '(choice (const :tag "No prefix" nil)
                  string))
 
 (defcustom flymake-diagnostic-at-point-display-diagnostic-function
@@ -62,7 +62,7 @@
                  (function :tag "Error display function")))
 
 (defface flymake-diagnostic-at-point-posframe-face
-  '((t))
+  '((t :inherit header-line))
   "The color of the flymake-diagnostic-at-point posframe frame.
 Only the `background' and `foreground' are used from this face."
   :group 'flymake-diagnostic-at-point)
@@ -126,9 +126,9 @@ in `flymake-diagnostic-at-point-display-diagnostic-function.'"
   (flymake-diagnostic-at-point-cancel-timer)
   (unless flymake-diagnostic-at-point-timer
     (setq flymake-diagnostic-at-point-timer
-          (run-with-idle-timer flymake-diagnostic-at-point-timer-delay
-                               nil
-                               #'flymake-diagnostic-at-point-maybe-display))))
+          (run-with-idle-timer
+           flymake-diagnostic-at-point-timer-delay nil
+           #'flymake-diagnostic-at-point-maybe-display))))
 
 ;;;###autoload
 (defun flymake-diagnostic-at-point-cancel-timer ()
@@ -140,7 +140,7 @@ in `flymake-diagnostic-at-point-display-diagnostic-function.'"
       (setq flymake-diagnostic-at-point-timer nil))))
 
 (defun flymake-diagnostic-at-point-handle-focus-change ()
-  "Set or cancel flymake message display timer after the frame focus changes."
+  "Set or cancel flymake message display timer after frame focus changes."
   (if (frame-focus-state)
       (flymake-diagnostic-at-point-set-timer)
     (flymake-diagnostic-at-point-hide-posframe)
